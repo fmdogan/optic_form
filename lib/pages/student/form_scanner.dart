@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flashlight/flashlight.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:path_provider/path_provider.dart';
@@ -106,25 +105,6 @@ class _FormScannerState extends State<FormScanner> {
                         ),
                       ),
                     ),*/
-                    ///////// FLASH BUTTONS /////////
-                  FlatButton(
-                    onPressed: () {
-                      !isFlashOn ? Flashlight.lightOn() : Flashlight.lightOff();
-                      setState(() {
-                        isFlashOn = !isFlashOn;
-                      });
-                    },
-                    child: Card(
-                      
-                        color: Colors.white,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            isFlashOn ? "turn Flash off" : "turn Flash on",
-                          ),
-                        )),
-                  ),
-                  /////////////////////////////////
                     InkWell(
                       onTap: onTakePictureButtonPressed,
                       child: Container(
@@ -289,13 +269,13 @@ class _FormScannerState extends State<FormScanner> {
       // A capture is already pending, do nothing.
       return null;
     }
-
+/*
     try {
       await camCtrl.takePicture(filePath);
     } on CameraException catch (e) {
       _showCameraException(e);
       return null;
-    }
+    }*/
     return filePath;
   }
 

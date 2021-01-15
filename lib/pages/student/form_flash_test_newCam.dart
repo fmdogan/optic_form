@@ -22,12 +22,31 @@ class FormScanner extends StatefulWidget {
 }
 
 class _FormScannerState extends State<FormScanner> {
+  ///String imagePath;
   bool isFlashOn = false;
+
+  @override
+  initState() {
+    super.initState();
+    
+    ///initFlashlight();
+  }
+
+  @override
+  void dispose() {
+    camCtrl.dispose();
+    //camCtrl.setFlashMode(FlashMode.off);
+    super.dispose();
+  }
+/*
+  void initFlashlight() {
+    hasFlash = Flashlight.hasFlashlight;
+    print("Device has flash ? $hasFlash");
+  }*/
 
   @override
   Widget build(BuildContext context) {
     Size _size = MediaQuery.of(context).size;
-    print("build state");
 
     return WillPopScope(
       // ignore: missing_return
@@ -46,8 +65,8 @@ class _FormScannerState extends State<FormScanner> {
                       ? Center(child: CircularProgressIndicator())
                       : FutureBuilder(
                           future: onNewCameraSelected(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot snapshot2) {
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot2) {
                             return !snapshot2.hasData
                                 ? Center(child: CircularProgressIndicator())
                                 : Container(
@@ -73,18 +92,23 @@ class _FormScannerState extends State<FormScanner> {
             Align(
               alignment: Alignment.bottomCenter,
               child:
+                  /*FloatingActionButton(
+                    onPressed: onTakePictureButtonPressed,
+                    child: Icon(
+                      Icons.camera,
+                      size: 40,
+                    )),*/
                   Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  /////////////////// Flash button
-                  /*InkWell(
+                  InkWell(
                     onTap: () {
-                      !isFlashOn
+                      /*!isFlashOn
                           // ignore: unnecessary_statements
-                          ? {Flashlight.lightOn(), print("flash on")}
+                          ? {camCtrl.setFlashMode(FlashMode.always), print("flash on")}
                           // ignore: unnecessary_statements
-                          : {Flashlight.lightOff(), print("flash off")};
-                      isFlashOn = !isFlashOn;
+                          : {camCtrl.setFlashMode(FlashMode.off), print("flash off")};
+                      isFlashOn = !isFlashOn;*/
                     },
                     child: Container(
                       padding: EdgeInsets.all(20),
@@ -96,7 +120,7 @@ class _FormScannerState extends State<FormScanner> {
                         size: 30,
                       ),
                     ),
-                  ),*/
+                  ),
                   InkWell(
                     onTap: onTakePictureButtonPressed,
                     child: Container(
@@ -149,13 +173,7 @@ class _FormScannerState extends State<FormScanner> {
   }
 
   Future<String> onNewCameraSelected() async {
-    //getCameras();
-
-    /*if (camCtrl != null) {
-      await camCtrl.dispose();
-    }*/
     camCtrl = CameraController(
-      ///cameraDescription,
       cameras[0],
       ResolutionPreset.high,
       enableAudio: false,
@@ -170,7 +188,7 @@ class _FormScannerState extends State<FormScanner> {
     });
 
     try {
-      await camCtrl?.initialize();
+      await camCtrl.initialize();
     } on CameraException catch (e) {
       _showCameraException(e);
     }
@@ -186,9 +204,6 @@ class _FormScannerState extends State<FormScanner> {
   void onTakePictureButtonPressed() {
     takePicture().then((String filePath) {
       if (mounted) {
-        /*setState(() {
-          imagePath = filePath;
-        });*/
         if (filePath != null) showInSnackBar('Picture saved to $filePath');
       }
       camCtrl.dispose();
@@ -213,7 +228,7 @@ class _FormScannerState extends State<FormScanner> {
     }
 
     try {
-      await camCtrl.takePicture(filePath);
+      //await camCtrl.takePicture(filePath);
       //filePath = await camCtrl.takePicture().then((value) => value.path);
     } on CameraException catch (e) {
       _showCameraException(e);
@@ -233,14 +248,17 @@ Future<String> getCameras() async {
   /// Fetch the available cameras before initializing the app.
   try {
     print("in try of getCameras");
-    cameras = await availableCameras();
-    print("after await..");
+    //WidgetsFlutterBinding.ensureInitialized();
+    // ignore: missing_return
+    cameras = await availableCameras().then((value) {print("camera : " + value[0].name);});
   } on CameraException catch (e) {
     print("in catch!");
     logError(e.code, e.description);
   }
+  print("cameras found.");
   // ignore: invalid_use_of_protected_member
   camScaffoldKey.currentState.setState(() {
+    ///futureBody = 0;
     cameras.isNotEmpty
         ? print("cameras found : " + cameras[0].toString())
         : print("cameras not found");

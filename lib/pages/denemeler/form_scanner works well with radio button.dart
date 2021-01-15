@@ -230,13 +230,13 @@ class _CameraExampleHomeState extends State<CameraExampleHome> {
       // A capture is already pending, do nothing.
       return null;
     }
-
+/*
     try {
       await camCtrl.takePicture(filePath);
     } on CameraException catch (e) {
       _showCameraException(e);
       return null;
-    }
+    }*/
     return filePath;
   }
 

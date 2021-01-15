@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flashlight/flashlight.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class StudentMain extends StatefulWidget {
@@ -60,25 +59,6 @@ class _StudentMainState extends State<StudentMain> {
                     ),
                   ),
                   SizedBox(height: 200),
-                  ///////// FLASH BUTTONS /////////
-                  FlatButton(
-                    onPressed: () {
-                      !isFlashOn ? Flashlight.lightOn() : Flashlight.lightOff();
-                      setState(() {
-                        isFlashOn = !isFlashOn;
-                      });
-                    },
-                    child: Card(
-                      color: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          isFlashOn ? "turn Flash off" : "turn Flash on",
-                        ),
-                      ),
-                    ),
-                  ),
-                  /////////////////////////////////
                   InkWell(
                     onTap: () => {
                       Navigator.pushNamed(context, "/qr_scanner"),
