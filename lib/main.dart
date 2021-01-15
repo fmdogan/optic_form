@@ -5,9 +5,8 @@ import 'pages/onStart/on_start.dart';
 import 'pages/student/student_main.dart';
 import 'pages/student/qr_scanner.dart';
 import 'pages/student/form_flash_test.dart';
-//import 'pages/student/form_scanner_autoLib.dart';
 
-import 'pages/student/crop_form_Testing_StaticRatioRectangle.dart';
+import 'pages/student/crop_form_EdgeLines.dart';
 
 import 'pages/admin/admin_main.dart';
 
