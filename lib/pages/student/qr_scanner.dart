@@ -3,9 +3,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'crop_form_EdgeLines.dart';
 
 const flashOn = 'FLASH ON';
 const flashOff = 'FLASH OFF';
+int selectedFormType = 0;
 
 class QRScanner extends StatefulWidget {
   @override
@@ -13,6 +15,7 @@ class QRScanner extends StatefulWidget {
 }
 
 class _QRScannerState extends State<QRScanner> {
+  TextEditingController selectFormCtrl = TextEditingController();
   bool isScanned = false;
 
   var qrText = '';
@@ -49,6 +52,7 @@ class _QRScannerState extends State<QRScanner> {
         ///isScanned = false;
       });
     });
+    selectFormCtrl.text = "0";
   }
 
   @override
@@ -133,6 +137,16 @@ class _QRScannerState extends State<QRScanner> {
                               ),
                             ),*/
                             Container(
+                              width: _size.width / 3,
+                              child: TextField(
+                                controller: selectFormCtrl,
+                                showCursor: true,
+                                decoration: InputDecoration(
+                                  labelText: "Form Kodu Gir",
+                                ),
+                              ),
+                            ),
+                            Container(
                               margin: EdgeInsets.all(8),
                               child: RaisedButton(
                                 onPressed: () {
@@ -141,6 +155,8 @@ class _QRScannerState extends State<QRScanner> {
                                     isScanned = true;
                                   });
                                   print(qrText);
+                                  selectedFormType =
+                                      int.tryParse(selectFormCtrl.text);
                                   Timer(Duration(seconds: 1), () {
                                     /*scannerPageCtrl.nextPage(
                                       duration: Duration(milliseconds: 500),
